@@ -1,0 +1,41 @@
+.data
+    Espaco: .asciiz "\n"
+
+.text
+main:
+    li $v0, 5 #input do primeiro numero
+    syscall
+    move $t1, $v0 #Movendo o primeiro numero para um registrador
+
+    move $t0, $zero #colocando 0 no registrador  
+    add $t0, $t0, 1 #somando 1 no reg
+
+    li $v0, 5 #input do 1 numero a ser comparado
+    syscall
+    move $t2, $v0 #salvando o numero a ser comaparado no registrador 
+
+while:
+    beq $t0, $t1, saida ## Se t0 for igual a $t1 pule para saida
+    add $t0, $t0, 1 #soma do contador +1
+
+    li $v0, 5 #input do numero a ser comparado
+    syscall
+    move $t3, $v0
+
+    bgt $t3, $t2, maior #se t3 for maior que t2 va para maior
+    j while
+
+maior:
+    move $t2, $t3 #move o maior para o t2
+    j while
+saida:
+    move $a0, $t2
+    li $v0, 1 #mostrar resposta
+    syscall
+
+    li $v0, 4 #imprimir o \n
+    la $a0, Espaco
+    syscall
+
+    li $v0, 10 #finaliza
+    syscall
