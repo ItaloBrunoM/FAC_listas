@@ -13,7 +13,7 @@ main:
 
     move $t1, $v0 #colocando o 2 input em um registrador
 
-    add $t2 ,$t0 , $t1 #subtração
+    add $t2 ,$t0 , $t1 #soma
 
     move $a0, $t2
     li $v0, 1 #mostrar resposta

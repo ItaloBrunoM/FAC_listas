@@ -1,0 +1,82 @@
+.data
+    Pular: .asciiz "\n"
+    Espaco: .asciiz " "
+
+.text
+main:
+    li $v0, 5 #input do numero
+    syscall
+    move $t1, $v0 # Movendo o numero para um registrador
+    # $t1 vai ser o final do loop
+    li $t5, 10
+    li $t6, 0
+
+    move $t2, $zero
+    j iniciop1
+
+whilep1: #piramide 1
+    li $v0, 4 # imprimir o \n
+    la $a0, Pular
+    syscall
+iniciop1:
+    add $t2, $t2, 1 #incremento em i
+    move $t3, $zero #cria t3 em 0
+    while2p1:
+        add $t3, $t3, 1 #incrementa t3
+        bgt $t2, $t1, reinicia # se t3 for maior ao numero escolhido pode sair 
+
+        move $a0, $t2 #move t3 para printar
+        jal adiciona0
+        li $v0, 1
+        syscall
+
+        li $v0, 4 # imprimir o espaço
+        la $a0, Espaco
+        syscall
+
+        beq $t3, $t2, whilep1 # se t3 for igual a t2 reseta para o while1
+
+        j while2p1
+adiciona0:
+    move $a0, $t6
+    li $v0, 1 #printa o 0
+    j while2p1
+reinicia:
+    move $t2, $zero
+whilep2: #piramide 2
+    li $v0, 4 # imprimir o \n
+
+    la $a0, Pular
+    syscall
+iniciop2:
+    add $t2, $t2, 1 #incremento em i
+    move $t3, $zero #cria t3 em 0
+    while2p2:
+        add $t3, $t3, 1 #incrementa t3
+
+        move $a0, $t3 #move t3 para printar
+        jal adiciona0
+        li $v0, 1
+        syscall
+
+        li $v0, 4 # imprimir o espaço
+        la $a0, Espaco
+        syscall
+
+        beq $t3, $t1, final # se t3 for igual ao numero escolhido pode sair
+        beq $t3, $t2, whilep2 # se t3 for igual a t2 reseta para o while1
+
+        j while2p2
+
+adiciona02:
+    move $a0, $zero
+    li $v0, 1 #printa o 0
+    j while2p2
+
+final:
+    li $v0, 4 # imprimir o \n
+    la $a0, Pular
+    syscall
+
+    li $v0, 10 # finaliza
+    syscall

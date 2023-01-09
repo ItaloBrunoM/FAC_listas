@@ -1,0 +1,60 @@
+.data
+    Espaco: .asciiz "\n"
+.text
+main:
+    li $v0, 5 #input do numero de m3 de agua
+    syscall
+    move $t0, $v0
+    
+    #salvando as variaveis 7, 10, 30, 100
+    li $s0, 10 
+    li $s1, 30
+    li $s2, 100
+    li $s3, 7
+
+    #se o valor de entrada for maior que algum desses vai para o calculo
+    bgt $t0, $s2, calc100 
+    bgt $t0, $s1, calc30
+    bgt $t0, $s0, calc10
+
+    move $t2, $s3
+    j saida #se for menor ou igual a 10 ja vai o valor base
+
+calc100:#se o valor for maior que 100
+    li $t1, 167 #salva o valor max de antes de 101
+    sub $t2, $t0, $s2 # $t2 = $t0 - $s2
+    li $t0, 5
+    mul $t3, $t2, $t0 # $t3 = $t2 * $t0
+    add $t2, $t3, $t1 # $t2 = $t3 + $t1
+
+    j saida
+
+calc30:#se o valor for maior que 30
+    li $t1, 27 #salva o valor max de antes de 31
+    sub $t2, $t0, $s1 # $t2 = $t0 - $s1
+    li $t0, 2 
+    mul $t3, $t2, $t0 # $t3 = $t2 * $t0
+    add $t2, $t3, $t1 # $t2 = $t3 + $t1
+
+    j saida
+
+calc10:#se o valor for maior que 10
+    li $t1, 7 #salva o valor max de antes de 11
+    sub $t2, $t0, $s0 # $t2 = $t0 - $s0
+    li $t0, 1
+    mul $t3, $t2, $t0 # $t3 = $t2 * $t0
+    add $t2, $t3, $t1 # $t2 = $t3 + $t1
+
+    j saida
+
+saida:
+    move $a0, $t2
+    li $v0, 1 #mostrar resposta
+    syscall
+
+    li $v0, 4 #imprimir o \n
+    la $a0, Espaco
+    syscall
+
+    li $v0, 10 #finaliza
+    syscall
